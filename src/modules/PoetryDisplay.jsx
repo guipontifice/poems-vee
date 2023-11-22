@@ -85,55 +85,57 @@ const PoetryDisplay = ({ author, searchTerm }) => {
   }
   return (
     <>
-      <div className="flex justify-around mb-2">
+      <div className="flex justify-around mb-2 font-playfair">
         <button onClick={handleToggleFavoritesOnly}>
           {showFavoritesOnly ? 'Show All Poems' : 'Show Favorites Only'}
         </button>
         <div className='flex justify-end mr-36'>Show: <p>5</p>/<p>10</p>/<p>15</p></div>
       </div>
-      <div className="flex justify-center mt-4">
+      <div className={`flex justify-center mt-4`}>
         <button
-          onClick={() => handlePreviousPage}
+          onClick={() => handlePreviousPage()}
           disabled={currentPage === 1}
-          className="bg-blue-500 text-black px-4 py-2 rounded mr-2"
+          className={`bg-blue-500 text-black px-4 py-2 rounded ${poemsToDisplay().length <= 5 ? 'text-gray' : 'text-black'}`}
         >
-          Previous
+          <ion-icon name="chevron-back-outline"></ion-icon>
         </button>
         <button
           onClick={handleNextPage}
-          disabled={poetryData.length === 0 || poemsToDisplay().length === 0}
-          className="bg-blue-500 text-black px-4 py-2 rounded"
+          disabled={poetryData.length / poemsPerPage > 100 }
+          className={`bg-blue-500 text-black px-4 py-2 rounded mr-2 ${poetryData.length < 5 || poemsToDisplay().length < 5 ? 'text-gray' : 'text-black'}`}
         >
-          Next
+          <ion-icon name="chevron-forward-outline"></ion-icon>
         </button>
       </div>
-      <div className=' flex justify-center'>
-        <div className='grid grid-cols-1 align-center'>
+      <div className='flex justify-center'>
+        <div className='flex align-center font-roboto'>
           {poemsToDisplay().length > 0 ? (
             <ul className=''>
-              {poemsToDisplay().map((poem, index) => (
-                <li key={index} className='mt-20 hover:bg-gray p-10 rounded-lg'>
-                  <h1 className='underline'>{poem.title}</h1>
-                  <h2 className='text-sm text-black'>{poem.author}</h2>
-                  {poem.lines.map((line, lineIndex) => (
-                    <p key={lineIndex}>{line}</p>
-                  ))}
-                  <div className='flex justify-end mt-3'>
-                    <button
-                      className='w-12'
-                      onClick={() => handleCopyPoem(poem.lines.join('\n'))}
-                    >
-                      <ion-icon name="copy-outline"></ion-icon>
-                    </button>
-                    <button
-                      className='w-12'
-                      onClick={() => handleFavoritePoem(poem)}
-                    >
-                      <ion-icon name={isPoemFavorited(poem) ? 'heart' : 'heart-outline'}></ion-icon>
-                    </button>
-                  </div>
-                </li>
-              ))}
+              {
+                poemsToDisplay().map((poem, index) => (
+                  <li key={index} className='mt-20 hover:bg-gray p-10 rounded-lg'>
+                    <h1 className=' font-bold'>{poem.title}</h1>
+                    <h2 className='text-sm font-medium text-black'>{poem.author}</h2>
+                    {poem.lines.map((line, lineIndex) => (
+                      <p key={lineIndex} className='font-normal '>{line}</p>
+                    ))}
+                    <div className='flex justify-end mt-3'>
+                      <button
+                        className='w-12'
+                        onClick={() => handleCopyPoem(poem.lines.join('\n'))}
+                      >
+                        <ion-icon name="copy-outline"></ion-icon>
+                      </button>
+                      <button
+                        className='w-12'
+                        onClick={() => handleFavoritePoem(poem)}
+                      >
+                        <ion-icon name={isPoemFavorited(poem) ? 'heart' : 'heart-outline'}></ion-icon>
+                      </button>
+                    </div>
+                  </li>
+                ))
+              }
             </ul>
           ) : (
             <p> No poems found.</p>
@@ -141,21 +143,22 @@ const PoetryDisplay = ({ author, searchTerm }) => {
         </div>
       </div>
       {
-        poemsToDisplay().length > 5 && (
-          <div className="flex justify-center  mt-4">
+        Math.ceil(poetryData.length / poemsPerPage) > 1 && (
+          <div className={`flex justify-center mt-4 ${poetryData.length < 5 || poemsToDisplay().length < 5 ? 'hidden' : ''}`}>
             <button
-              onClick={() => handlePreviousPage}
+              onClick={() => handlePreviousPage()}
               disabled={currentPage === 1}
-              className="bg-blue-500 text-black px-4 py-2 rounded mr-2"
+              className={`bg-blue-500 text-black px-4 py-2 rounded ${poetryData.length === 0 || poemsToDisplay().length <= 5 ? 'text-black' : 'text-gray'}`}
             >
-              Previous
+              <ion-icon name="chevron-back-outline"></ion-icon>
             </button>
             <button
               onClick={handleNextPage}
-              disabled={poetryData.length === 0 || poemsToDisplay().length === 0}
-              className="bg-blue-500 text-black px-4 py-2 rounded"
+              disabled={poetryData.length === 0 || poemsToDisplay().length <= 5}
+              className={`bg-blue-500 text-black px-4 py-2 rounded mr-2 ${poetryData.length < 5 || poemsToDisplay().length < 5 ? 'text-gray' : 'text-black'}`}
+
             >
-              Next
+              <ion-icon name="chevron-forward-outline"></ion-icon>
             </button>
           </div>)
       }

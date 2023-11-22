@@ -8,7 +8,8 @@ export default {
     extend: {
       fontFamily: {
         nunito: ['Nunito', 'sans'],
-        roboto: ['Roboto', 'sans']
+        roboto: ['Roboto', 'serif'],
+        playfair: ['Playfair Display', 'serif']
       },
       screens: {
         'xxs': { 'min': '0px', 'max': '374px' }, 
