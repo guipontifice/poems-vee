@@ -23,7 +23,13 @@ const PoetryDisplay = ({ author, searchTerm }) => {
 
         const response = await fetch(apiUrl);
         const data = await response.json();
-        setPoetryData(data);
+
+        if (data.status === 404) {
+          console.warn("We didn't find your poems");
+          setPoetryData([])
+        } else {
+          setPoetryData(data);
+        }
       } catch (error) {
         console.error('Error fetching poetry data:', error);
       }
@@ -85,23 +91,22 @@ const PoetryDisplay = ({ author, searchTerm }) => {
   }
   return (
     <>
-      <div className="flex justify-around mb-2 font-playfair">
+      <div className="flex justify-around font-bold m-2 font-sans">
         <button onClick={handleToggleFavoritesOnly}>
           {showFavoritesOnly ? 'Show All Poems' : 'Show Favorites Only'}
         </button>
-        <div className='flex justify-end mr-36'>Show: <p>5</p>/<p>10</p>/<p>15</p></div>
       </div>
       <div className={`flex justify-center mt-4`}>
         <button
           onClick={() => handlePreviousPage()}
           disabled={currentPage === 1}
-          className={`bg-blue-500 text-black px-4 py-2 rounded ${poemsToDisplay().length <= 5 ? 'text-gray' : 'text-black'}`}
+          className={`bg-blue-500 text-black px-4 py-2 rounded ${currentPage === 1 ? 'text-gray' : 'text-black'}`}
         >
           <ion-icon name="chevron-back-outline"></ion-icon>
         </button>
         <button
           onClick={handleNextPage}
-          disabled={poetryData.length / poemsPerPage > 100 }
+          disabled={poetryData.length / poemsPerPage > 100}
           className={`bg-blue-500 text-black px-4 py-2 rounded mr-2 ${poetryData.length < 5 || poemsToDisplay().length < 5 ? 'text-gray' : 'text-black'}`}
         >
           <ion-icon name="chevron-forward-outline"></ion-icon>
@@ -138,7 +143,7 @@ const PoetryDisplay = ({ author, searchTerm }) => {
               }
             </ul>
           ) : (
-            <p> No poems found.</p>
+            <p>{poetryData.length === 0 ? 'No poems found.' : 'Loading...'}</p>
           )}
         </div>
       </div>
@@ -148,13 +153,13 @@ const PoetryDisplay = ({ author, searchTerm }) => {
             <button
               onClick={() => handlePreviousPage()}
               disabled={currentPage === 1}
-              className={`bg-blue-500 text-black px-4 py-2 rounded ${poetryData.length === 0 || poemsToDisplay().length <= 5 ? 'text-black' : 'text-gray'}`}
+              className={`bg-blue-500 text-black px-4 py-2 rounded ${currentPage === 1 ? 'text-gray' : 'text-black'}`}
             >
               <ion-icon name="chevron-back-outline"></ion-icon>
             </button>
             <button
               onClick={handleNextPage}
-              disabled={poetryData.length === 0 || poemsToDisplay().length <= 5}
+              disabled={poetryData.length / poemsPerPage > 100}
               className={`bg-blue-500 text-black px-4 py-2 rounded mr-2 ${poetryData.length < 5 || poemsToDisplay().length < 5 ? 'text-gray' : 'text-black'}`}
 
             >

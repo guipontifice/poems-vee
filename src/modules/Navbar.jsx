@@ -13,8 +13,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray p-4 font-roboto">
-        <div className="container mx-auto flex justify-between items-center font-roboto font-medium text-lg">
+      <nav className="bg-gray p-4 font-sans">
+        <div className="container mx-auto flex justify-between items-center font-sans font-medium text-md">
           <div className="flex items-center">
             <img
               src="../../src/images/shakespeare-icon.jpg"  // Replace with your logo URL
