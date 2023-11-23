@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchInput from '../components/SearchInput';
 import PoetryDisplay from './PoetryDisplay';
+import imgLogo from '../images/shakespeare-icon.jpg'
 // esse vira navbar 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,14 +18,16 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center font-sans font-medium text-md">
           <div className="flex items-center">
             <img
-              src="../../src/images/shakespeare-icon.jpg"  // Replace with your logo URL
+              src={imgLogo}  // Replace with your logo URL
               alt="Logo"
               className="rounded-md w-10 mr-2"
             />
-            <span className="text-black text-lg font-semibold">ArtVee</span>
+            <span className="sm:hidden xs:hidden xxs:hidden text-black text-lg font-semibold">ArtVee</span>
           </div>
           <SearchInput onSearch={handleSearch} />
-          Discover Classical Poems
+          <p className='sm:hidden xs:hidden xxs:hidden'>
+            Discover Classical Poems
+          </p>
         </div>
       </nav>
       <PoetryDisplay author={searchType} searchTerm={searchTerm} />

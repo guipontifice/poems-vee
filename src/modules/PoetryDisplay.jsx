@@ -5,6 +5,7 @@ const PoetryDisplay = ({ author, searchTerm }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const poemsPerPage = 5;
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [favoritedStatus, setFavoritedStatus] = useState({})
   const indexOfLastPoem = currentPage * poemsPerPage;
   const indexOfFirstPoem = indexOfLastPoem - poemsPerPage;
 
@@ -77,6 +78,15 @@ const PoetryDisplay = ({ author, searchTerm }) => {
     return favorites.some((favorite) => favorite.title === poem.title);
   };
 
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoritesStatusMap = {};
+    favorites.forEach((favorite) => {
+      favoritesStatusMap[favorite.title] = true
+    });
+    setFavoritedStatus(favoritesStatusMap);
+  }, []);
+
   const handleFavoritePoem = (poem) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -84,10 +94,15 @@ const PoetryDisplay = ({ author, searchTerm }) => {
     if (!isPoemInFavorites) {
       favorites.push(poem);
       localStorage.setItem('favorites', JSON.stringify(favorites));
-      alert('Poem added to favorites');
     } else {
-      alert('Poem is already in favorites')
+      const updatedFavorites = favorites.filter((favorite) => favorite.title !== poem.title);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
     }
+    alert(isPoemInFavorites ? 'Poem removed from favorites' : 'Poem added to favorites')
+    setFavoritedStatus((prevStatus) => ({
+      ...prevStatus,
+      [poem.title] : !isPoemInFavorites,
+    }));
   }
   return (
     <>
@@ -135,7 +150,7 @@ const PoetryDisplay = ({ author, searchTerm }) => {
                         className='w-12'
                         onClick={() => handleFavoritePoem(poem)}
                       >
-                        <ion-icon name={isPoemFavorited(poem) ? 'heart' : 'heart-outline'}></ion-icon>
+                        <ion-icon name={favoritedStatus[poem.title] ? 'heart' : 'heart-outline'}></ion-icon>
                       </button>
                     </div>
                   </li>
