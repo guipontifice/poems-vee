@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import SearchInput from '../components/SearchInput';
 import PoetryDisplay from './PoetryDisplay';
-import imgLogo from '../images/shakespeare-icon.jpg'
-// esse vira navbar 
+import imgLogo from '../../public/images/shakespeare-icon.jpg'
+
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState('author');
@@ -18,7 +18,7 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center font-sans font-medium text-md">
           <div className="flex items-center">
             <img
-              src={imgLogo}  // Replace with your logo URL
+              src={imgLogo}  
               alt="Logo"
               className="rounded-md w-10 mr-2"
             />
