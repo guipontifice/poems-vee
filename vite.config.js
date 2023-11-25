@@ -7,6 +7,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/poems-vee',
   build: {
-    outDir: 'public'
+    outDir: 'dist'
   }
 })

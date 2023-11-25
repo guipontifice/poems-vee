@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchInput from '../components/SearchInput';
 import PoetryDisplay from './PoetryDisplay';
-import imgLogo from '../assets/images/shakespeare-icon.jpg'
+import imgLogo from '../public/assets/images/shakespeare-icon.jpg'
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
