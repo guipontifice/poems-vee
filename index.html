@@ -14,7 +14,7 @@
         var decoded = l.search
           .slice(1)
           .split("&")
-          .map(function (s) {
+          .map(function (s) { 
             return s.replace(/~and~/g, "&");
           })
           .join("?");
